@@ -11,17 +11,64 @@
 
 ---
 
-## 🌌 Overview
+## 📖 About Mission Forge
 
-Modern space exploration requires synthesizing massive quantities of astrodynamic calculations, subsystem trade-offs (SWaP-C: Size, Weight, Power, and Cost), international ground telemetry, and fault-tolerant system monitoring. Traditional space mission planning tools are siloed, requiring days to reconcile changes between orbital trajectory planners, power engineers, and thermal leads.
+### The Mission Behind Mission Forge
+In contemporary aerospace operations, designing an interplanetary space mission (e.g. Earth to Mars, Europa, or Asteroid Rendezvous) requires weeks or months of manual reconciliation across disparate engineering teams. Trajectory specialists output delta-V requirements in isolated numerical scripts, power systems leads model solar arrays in static spreadsheets, thermal engineers compute radiator balances in finite-element simulators, and systems architects attempt to balance tight mass/budget margins across fragmented documents.
 
-**Mission Forge** solves this by unifying:
-1. **Astrodynamics Laboratory:** Universal variable Lambert mechanics, 2D porkchop energy contour generation, and exact heliocentric Keplerian conic transfer arcs.
-2. **Concurrent Design Facility (CDF):** Real-time 4-officer concurrent design facility with WebSocket synchronization, optimistic version checking, and role-based permissions.
-3. **Spacecraft Designer & Provenance Ledger:** Procedural 3D bus visualization, component catalog with flight heritage/TRL filters, and automated SWaP-C feasibility validation.
-4. **Deterministic FDIR & Grounded CAPCOM:** Zero-hallucination spacecraft telemetry safety rules with discrete `NOMINAL` vs `INSUFFICIENT_DATA` quality flags and grounded Gemini advisory assistant.
-5. **Mission Control Command Bridge:** Live NASA Deep Space Network (DSN) ground station tracking and NASA TechPort technology roadmap feeds.
-6. **Auditable Mission Dossier Service:** Asynchronous ReportLab PDF compilation, structured JSON architecture snapshots, and in-browser cryptographic SHA-256 verification.
+A single modification—such as altering the launch epoch by 5 days—cascades into changed delta-V, altered solar flux at arrival, shifted link budgets for Earth communication, and modified payload capacities. When teams work in silos, these cascading constraints cause costly design regressions, mass growth, or launch window cancellation.
+
+**Mission Forge was conceived for the NASA Space Apps Challenge 2026** to eliminate these silos. It brings the high-intensity, multi-disciplinary methodology of NASA’s and ESA’s **Concurrent Design Facility (CDF)** directly into a unified, high-performance web architecture.
+
+---
+
+### Key Pillars & Design Philosophy
+
+1. **True Concurrent Engineering (CDF):**
+   Instead of sequential hand-offs, four mission specialists (`SYSTEMS_LEAD`, `PROPULSION_POWER`, `AVIONICS_GNC`, and `SCIENCE_PAYLOAD`) collaborate simultaneously in a shared real-time workspace powered by WebSockets, authoritative base-version conflict resolution, and automated inter-subsystem constraint checking.
+
+2. **Grounded Aerospace Mechanics, Zero Hallucinations:**
+   Every orbit, velocity vector, and transfer energy in Mission Forge is computed using authoritative astrodynamics formulations—specifically David A. Vallado’s universal variable Lambert boundary value algorithm and Keplerian two-body conic equations. Graphical visualizers render true orbital geometry rather than artistic polynomial Bezier approximations.
+
+3. **Deterministic FDIR & AI-Safe CAPCOM:**
+   Mission safety is non-negotiable. Critical anomaly detection is governed by a deterministic, zero-hallucination Fault Detection, Isolation, and Recovery (FDIR) engine. Spacecraft telemetry is never assumed to be nominal if sensors are missing; the system explicitly distinguishes between `NOMINAL` and `INSUFFICIENT_DATA`. The Gemini-powered CAPCOM assistant functions strictly as an advisory co-pilot—always presenting source facts, calculations, and recommendations in discrete, non-binding sections.
+
+4. **Cryptographic Provenance & Auditability:**
+   From component flight-heritage tracking in the Spacecraft Ledger to mission dossier compilation, Mission Forge enforces rigorous accountability. Exported mission dossiers (ReportLab vector PDFs and architectural JSON snapshots) feature in-browser SHA-256 cryptographic recomputation via the Web Crypto API, guaranteeing that no artifact has been tampered with or corrupted in transit.
+
+5. **Anti-AI-Slop Aerospace Aesthetic:**
+   Engineered for mission controllers and systems architects. Uses a restrained deep-space carbon/navy palette (`#05080E` canvas, `#0B0F17` panels, `#1E293B` hairlines, `#0284C7` tactical accent), tabular numerals for precision telemetry alignment, keyboard accessibility, and full WCAG 2.1 AA contrast compliance.
+
+---
+
+## 🌌 Core Feature Matrix
+
+1. **Mission Control Command Bridge (`/`):**
+   - Live NASA Deep Space Network (DSN) ground antenna monitor distinguishing static geographic coordinates (Goldstone, Madrid, Canberra) from live parsed XML feed telemetry (spacecraft IDs, active dishes, wind speed, range, RTLT, RF data rates).
+   - NASA TechPort R&D feed featuring real-time keyword filtering, project details, and a discrete 9-step Technology Readiness Level (TRL 1–9) gauge.
+
+2. **Astrodynamics Laboratory (`/trajectory`):**
+   - 2D Interplanetary Porkchop Plot backed by asynchronous background grid workers. Non-converged or unfeasible cells render as dark hatched void gaps—never converted to zeroes.
+   - Three.js 3D heliocentric Keplerian conic transfer arc with central Sun, Earth/Mars orbital rings, and explicit patched-conic limitation disclosures.
+
+3. **Spacecraft Designer & Component Ledger (`/spacecraft`):**
+   - Procedural 3D spacecraft bus with subsystem meshes (solar arrays, thrusters, high-gain antennas, avionics stack, RTG/battery) and interactive inspection reticles.
+   - Component catalog ledger with 7 subsystem filters, manufacturer provenance, and flight heritage verification status.
+   - Real-time SWaP-C analysis engine computing wet/dry mass totals, power margins, $\Delta V$ capability, and launch vehicle cost estimates.
+
+4. **Concurrent Design Facility (CDF) Workspace (`/cdf`):**
+   - Real-time 4-seat concurrent engineering facility with live WebSocket synchronization, 30-second keepalive heartbeats, and exponential backoff auto-reconnect.
+   - Optimistic version checking, HTTP 409 conflict detection with resynchronization prompts, and server-side constraint alert banners.
+
+5. **Deterministic FDIR & Grounded CAPCOM (`/fdir`):**
+   - Deterministic rule evaluation dashboard with telemetry quality flags (`NOMINAL` vs `INSUFFICIENT_DATA`) and persistent audit trail.
+   - Anomaly clearance resolving persistent database log UUIDs (`FDIRFindingLog.id`).
+   - Grounded Gemini CAPCOM assistant providing verified facts, deterministic calculations, and AI recommendations.
+
+6. **Mission Dossier & Artifact Export Center (`/dossier`):**
+   - Asynchronous PDF and JSON dossier compilation workflow with live polling of backend job status.
+   - In-browser cryptographic SHA-256 verification using the Web Crypto API (`crypto.subtle.digest`).
+   - Embedded PDF viewer with page navigation, zoom controls, and authenticated expiring cloud download links.
 
 ---
 
@@ -223,9 +270,11 @@ pnpm build
 
 ---
 
-## 🏷️ Tags & Keywords
+## 🏷️ Repository Metadata & Tags
 
-`aerospace-engineering` • `nasa-space-apps-challenge` • `astrodynamics` • `orbital-mechanics` • `lambert-problem` • `porkchop-plot` • `threejs` • `react19` • `typescript` • `fastapi` • `concurrent-design-facility` • `spacecraft-fdir` • `capcom-ai` • `gemini-api` • `deep-space-network` • `space-mission-design`
+- **Project Description:** Autonomous Aerospace Mission Design & Simulation Platform featuring universal variable Lambert mechanics, 4-role real-time Concurrent Design Facility (CDF), deterministic FDIR, grounded CAPCOM AI assistant, and auditable ReportLab mission dossiers.
+- **Topics / Tags:**  
+  `aerospace-engineering` • `nasa-space-apps-challenge` • `astrodynamics` • `orbital-mechanics` • `lambert-problem` • `porkchop-plot` • `threejs` • `react19` • `typescript` • `fastapi` • `concurrent-design-facility` • `spacecraft-fdir` • `capcom-ai` • `gemini-api` • `deep-space-network` • `space-mission-design`
 
 ---
 

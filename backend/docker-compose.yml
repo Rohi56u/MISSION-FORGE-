@@ -1,0 +1,72 @@
+version: '3.8'
+
+# ==============================================================================
+# Mission Forge Production Docker Compose
+# NASA Space Apps Challenge 2026
+# ==============================================================================
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mission-forge-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - DEBUG=false
+      - DATABASE_URL=sqlite+aiosqlite:////app/data/mission_forge.db
+      - DOSSIER_STORAGE_DIR=/app/artifacts/dossiers
+      - REDIS_URL=redis://redis:6379/0
+      - LOG_LEVEL=INFO
+    env_file:
+      - .env
+    volumes:
+      - dossier_artifacts:/app/artifacts/dossiers
+      - sqlite_data:/app/data
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2048M
+
+  redis:
+    image: redis:7-alpine
+    container_name: mission-forge-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--save", "60", "1"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+volumes:
+  dossier_artifacts:
+    name: mission_forge_dossier_artifacts
+  sqlite_data:
+    name: mission_forge_sqlite_data
+  redis_data:
+    name: mission_forge_redis_data

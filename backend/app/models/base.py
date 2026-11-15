@@ -1,0 +1,33 @@
+"""
+Base model definitions and mixins for SQLAlchemy models.
+"""
+
+import uuid
+from datetime import datetime, timezone
+from sqlalchemy import DateTime, String
+from sqlalchemy.orm import Mapped, mapped_column
+
+
+class UUIDModelMixin:
+    """Provides a UUID string primary key."""
+    id: Mapped[str] = mapped_column(
+        String(36),
+        primary_key=True,
+        default=lambda: str(uuid.uuid4()),
+        index=True,
+    )
+
+
+class TimestampModelMixin:
+    """Provides created_at and updated_at UTC timestamps."""
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+        nullable=False,
+    )

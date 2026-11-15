@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-canvas: #05080E;
+  --color-panel: #0B0F17;
+  --color-panel-raised: #111827;
+  --color-hairline: #1E293B;
+  --color-accent: #0284C7;
+  --color-nominal: #10B981;
+  --color-caution: #F59E0B;
+  --color-alert: #EF4444;
+  --color-inactive: #64748B;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-canvas);
+    color: #e2e8f0;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Monospace metrics and numerical telemetry require tabular numerals */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Custom scrollbars for dense data grids */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0f17;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}

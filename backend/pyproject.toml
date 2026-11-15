@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "mission-forge-backend"
+version = "1.0.0"
+description = "Mission Forge Aerospace Mission Design API"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+pythonpath = [".", ".."]
+addopts = "-p no:cacheprovider -p no:langsmith"
+filterwarnings = [
+    "ignore::UserWarning:langsmith.*",
+]
+log_cli = true
+log_cli_level = "INFO"
+
+[tool.setuptools.packages.find]
+where = ["."]

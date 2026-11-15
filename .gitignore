@@ -1,0 +1,29 @@
+# Root gitignore
+.env
+.env.local
+.env.*.local
+*.env
+!.env.example
+!backend/.env.example
+backend/.env
+frontend/.env
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+pytest-cache-files*
+node_modules/
+dist/
+build/
+.venv/
+venv/
+*.zip
+test_write.txt
+artifacts/dossiers/
+backend/artifacts/dossiers/
+prd (1).pdf
